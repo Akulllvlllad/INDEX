@@ -1,25 +1,36 @@
 
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entity/user.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import * as argon2 from 'argon2'
 
-// This should be a real class/interface representing a user entity
-export type User = any;
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>
+  ){}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  async create({ email, password }: CreateUserDto){
+    const isExist = await this.userRepository.findOne({
+      where: { email }
+    })
+
+    if(isExist) throw new BadGatewayException('This email already exist!')
+
+    const user = await this.userRepository.save({ 
+      email, 
+      password: await argon2.hash(password)
+    })
+
+    return { user }
+  }
+
+  async findAll(){
+  }
+  async findOne(){
+    
   }
 }
