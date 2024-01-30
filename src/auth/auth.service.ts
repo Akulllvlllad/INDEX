@@ -1,7 +1,9 @@
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/entity/user.entity';
+import * as argon2 from 'argon2'
 
 @Injectable()
 export class AuthService {
@@ -9,6 +11,22 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService
     ) {}
+
+  async validateUser(email: string, password: string ): Promise<Omit<User, 'password'> | null> {
+
+    const user = await this.usersService.findOneByEmail(email);
+
+    const passwordIsMatched = await argon2.verify(user?.password, password)
+
+    if(user && passwordIsMatched){
+      const { password, ...result } = user;
+
+      return result;
+    }
+    
+    throw new UnauthorizedException('User or password are incorrect')
+
+  }
 
   async signIn(username: string, pass: string): Promise<any> {
    
