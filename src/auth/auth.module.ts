@@ -9,7 +9,8 @@ import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
-    UsersModule, PassportModule,
+    UsersModule,
+    PassportModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -20,5 +21,4 @@ import { PassportModule } from '@nestjs/passport';
   controllers: [AuthController],
   exports: [AuthService],
 })
-
 export class AuthModule {}

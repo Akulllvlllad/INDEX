@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -20,11 +20,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         synchronize: true,
-        entities: [ __dirname + '/**/*.entity{.js, .ts}']
-        
-      })
+        entities: [__dirname + '/**/*.entity{.js, .ts}'],
+      }),
     }),
-    AuthModule, UsersModule],
+    AuthModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
