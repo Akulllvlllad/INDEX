@@ -1,23 +1,29 @@
-name: Deploy Nest App
+name: Deploy
 on: 
   push:
     branches:
       - main
+
+env:
+  SERVER_HOST: winter-website.ru
+  SERVER_USER: root
+  SERVER_PATH: /root/TEST
+
 jobs:
     deploy:
         runs-on: ubuntu-20.04
         steps: 
-            - name: Get the repository
-              uses: actions/checkout@v4
-            - name: Install dependencies
-              run: npm ci
-            - name: Test app
-              run: npm run test
-              
-            - name: lint app
-              run: npm run lint
+          - uses: actions/checkout@v4
 
-            - name: build app
-              run: npm run build
-            - name: deploy
-              run: echo Deploying...
+          - name: Install SSH
+            uses: shimataro/ssh-key-action@v2.3.1
+            with: 
+              key: "${{ secrets.INDEX_KEY }}"
+              known_host: "just-a-placeholder-so-we-dont-get-errors"
+          
+          - name: Generate auth hosts
+            run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+          - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
+            
+             
