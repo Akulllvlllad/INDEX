@@ -1,0 +1,23 @@
+name: Deploy Nest App
+on: 
+  push:
+    branches:
+      - main
+jobs:
+    deploy:
+        runs-on: ubuntu-20.04
+        steps: 
+            - name: Get the repository
+              uses: actions/checkout@v4
+            - name: Install dependencies
+              run: npm ci
+            - name: Test app
+              run: npm run test
+              
+            - name: lint app
+              run: npm run lint
+
+            - name: build app
+              run: npm run build
+            - name: deploy
+              run: echo Deploying...
