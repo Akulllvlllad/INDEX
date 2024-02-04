@@ -19,7 +19,6 @@ jobs:
             uses: shimataro/ssh-key-action@v2.3.1
             with: 
               key: "${{ secrets.INDEX_KEY }}"
-              known_host: "just-a-placeholder-so-we-dont-get-errors"
           
           - name: Generate auth hosts
             run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
