@@ -7,6 +7,5 @@ eslint:
     NODE_VERSION: 20
   script:
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    - nvm install $NODE_VERSION
     - npm ci
     - npm eun lint
