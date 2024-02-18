@@ -11,15 +11,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+        env: 
+          NODE_VERSION: 20
       - name: install nvm
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
           . "$NVM_DIR/nvm.sh"
       - name: install node.js
-        env: 
-          NODE_VERSION: 20
-        run: nvm install $NODE_VERSION
-      - name: install dependencies
         run: npm ci 
       - name: start lint
         run: npm run lint
