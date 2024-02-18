@@ -1,30 +1,25 @@
-name: Deploy
+name: eslint
+
 on: 
   push:
-    branches:
-      - main
-
-env:
-  SERVER_HOST: winter-website.ru
-  SERVER_USER: root
-  SERVER_PATH: /root/TEST
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    deploy:
-        runs-on: ubuntu-20.04
-        steps: 
-          - uses: actions/checkout@v4
-
-          - name: Install SSH
-            uses: shimataro/ssh-key-action@v2.3.1
-            with: 
-              key: "${{ secrets.INDEX_KEY }}"
-              known_hosts: unnecessary
-          
-          - name: Generate auth hosts
-            run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
-            
-            
-          - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
-            
+  eslint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: install nvm
+        run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - name: install node.js
+        env: 
+          NODE_VERSION: 20.11.1
+        run: npm install $NODE_VERSION
+      - name: install dependencies
+        run: npm ci 
+      - name: start lint
+        run: npm run lint
+  
              
