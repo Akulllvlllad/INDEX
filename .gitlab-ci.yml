@@ -9,5 +9,5 @@ eslint:
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
     - eval "[ -f .nvmrc ] && nvm install"  
-    - npm ci
+    - npm install
     - npm run lint
