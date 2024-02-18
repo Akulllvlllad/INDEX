@@ -1,22 +1,10 @@
 stages:
   - lint
-  
-before_script:
-  - apt-get update -qq && apt-get install -y curl
-  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-  - export NVM_DIR="$HOME/.nvm"
-  - source "$NVM_DIR/nvm.sh"
-  - nvm install node
+
 
 eslint: 
   stage: lint
-  variables:
-    NODE_VERSION: 20
+  image: node:20-alpine
   script:
-    # - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    # - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-    # - eval "[ -f .nvmrc ] && nvm install"
-    # - nvm install $NODE_VERSION
-    # - nvm use 20
     - npm ci
     - npm run lint
