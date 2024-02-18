@@ -6,10 +6,10 @@ eslint:
   variables:
     NODE_VERSION: 20
   script:
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-    - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-    - eval "[ -f .nvmrc ] && nvm install"
-    - nvm install $NODE_VERSION
-    - nvm use 20
+    # - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    # - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
+    # - eval "[ -f .nvmrc ] && nvm install"
+    # - nvm install $NODE_VERSION
+    # - nvm use 20
     - npm ci
-    - npm run build
+    - npm run lint
