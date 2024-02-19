@@ -25,5 +25,5 @@ jobs:
 
       - name: install node.js
         run: npm ci
-      - name: start lint
-        run: npm run lint
+      - name: start build
+        run: npm run build
