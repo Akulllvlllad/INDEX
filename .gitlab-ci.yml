@@ -1,10 +1,23 @@
 stages:
   - lint
 
-
-eslint: 
+eslint:
   stage: lint
   image: node:20-alpine
   script:
     - npm ci
     - npm run lint
+
+format:
+  stage: lint
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm run format
+
+test:
+  stage: lint
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm run test
