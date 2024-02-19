@@ -1,6 +1,6 @@
 name: eslint
 
-on: 
+on:
   push:
     branches: [main]
   pull_request:
@@ -8,14 +8,22 @@ on:
 
 jobs:
   eslint:
-    runs-on: ubuntu:20.04
-    container: 
+    runs-on: ubuntu-20.04
+    container:
       image: node:20-alpine
     steps:
       - uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: npm-${{ hashFiles('package-lock.json')}}
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}
+          restore-key: |
+            ${{ env.cache-name }}
+
       - name: install node.js
-        run: npm ci 
+        run: npm ci
       - name: start lint
         run: npm run lint
-  
-             
