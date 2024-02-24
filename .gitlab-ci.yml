@@ -1,5 +1,16 @@
 stages:
   - lint
+  - deploy
+
+cathe: 
+  key: 
+    files:
+      - package-lock.json
+  path:
+    - .npm/
+
+before_script:
+  - npm ci --cache .npm --prefer-offline
 
 
 eslint: 
